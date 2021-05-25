@@ -1,10 +1,10 @@
-const mongoose = require("mongoose")
-const jwt = require("jsonwebtoken")
-const moment = require("moment")
+//importing required modules
+const mongoose = require("mongoose") //to store de data en mongodb
+const jwt = require("jsonwebtoken") //generate a jwt when the user is saved successfully
+const moment = require("moment") //moemnto is useful to generate iat for the jwt
 
 
 //Creating user Schema
-
 const userSchema = new mongoose.Schema({
     name:String,
     email:String,
@@ -27,4 +27,6 @@ userSchema.methods.generateJWT = () =>{
 //User Collection in mongo
 const User = mongoose.model("user",userSchema)
 
+
+//exporting user model
 module.exports = User;
