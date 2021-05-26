@@ -2,8 +2,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-//importing routers
-const User = require("./routes/user")
+//importing route modules
+const User = require("./routes/user");
+const Auth = require("./routes/auth");
 
 //Creating instance of express  // app variable
 const app = express();
@@ -12,7 +13,10 @@ const app = express();
 //Using express with json format
 app.use(express.json());
 //using routes
+//register route
 app.use("/api/users/",User);
+//login route
+app.use("/api/auth/",Auth)
 
 
 //Port variable for localhost or hosting url
