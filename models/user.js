@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
 })
 
 //method to generate JWT 
-userSchema.methods.generateJWT = () =>{
+userSchema.methods.generateJWT = function(){
     return jwt.sign({
         _id:this._id,
         name:this.name,
