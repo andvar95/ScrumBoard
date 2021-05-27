@@ -33,5 +33,38 @@ router.get("/listTasks",middlewareAuth,async(req,res)=>{
     
 })
 
+router.put("/updateTask",middlewareAuth,async(req,res)=>{
+    //cheking user
+    const user = await User.findById(req.user._id);
+
+    if(!user) return res.status(401).send("This Person doesn't exist");
+
+    //UPDATING activity
+    const board = await Board.findByIdAndUpdate(req.body._id,{
+        userId:user._id,
+        name:req.body.name,
+        status:req.body.status,
+        description:req.body.description
+    });
+
+    if(!board) return res.status(400).send("The task couldn't be updated")
+
+    return res.status(200).send({board})
+})
+
+router.delete("/:_id",middlewareAuth,async(req,res)=>{
+    const user = await User.findById
+    (req.user._id);
+    
+    if(!user) return res.status(401).send("User dones't exist");
+
+    const board = await Board.findByIdAndDelete(req.params._id);
+
+    if(!board) return res.status(401).send("Error deleting task")
+
+    return res.status(401).send({message:"Task deleted"})
+
+})
+
 
 module.exports = router;
