@@ -23,4 +23,15 @@ router.post("/saveTask",middlewareAuth,async(req,res)=>{
     return res.status(200).send({result});
 })
 
+router.get("/listTasks",middlewareAuth,async(req,res)=>{
+    const user = await User.findById(req.user._id);
+
+    if(!user) return res.status(401).send("This user doesn't exist")
+
+    const board = await Board.find({userId:req.user._id});
+    return res.status(200).send({board});
+    
+})
+
+
 module.exports = router;

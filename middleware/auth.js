@@ -7,7 +7,7 @@ const auth = (req,res,next)=>{
     //chekinf auth header
     let jwtToken = req.header("Authorization");
 
-    if(!jwtToken) return res.status("400").send("Authentication rejected: there is not a token");
+    if(!jwtToken) return res.status(400).send("Authentication rejected: there is not a token");
 
     //jwt exists, we split the payload
     jwtToken = jwtToken.split(" ")[1];
