@@ -28,6 +28,7 @@ const port = process.env.PORT || 3002;
 //listening server in the given port (3002)
 app.listen(port,()=>console.log("Backend server running in port: "+port))
 
+//Connection with mongo  db
 mongoose.connect("mongodb://localhost:27017/scrumBoardDB",{
     useNewUrlParser: true, //
     useUnifiedTopology: true, //mongo can use mongo commands

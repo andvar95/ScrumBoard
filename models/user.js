@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     default:Date.now}
 })
 
-//method to generate JWT 
+/* this methdd generate an unique JWT  for the user according to the name, id ,iat and the own-sign*/
 userSchema.methods.generateJWT = function(){
     return jwt.sign({
         _id:this._id,

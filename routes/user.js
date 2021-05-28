@@ -4,14 +4,12 @@ const router = express.Router(); //routers help to manage project routes
 const User = require("../models/user"); //importing model to use in the route
 const bcrypt = require("bcrypt");  //library to encrypt the password
 
-//register User async-await-POST
+/* Function to register the user, checking if the use already exists, to avoid
+users duplicated 
+*/ 
 router.post("/registerUser", async (req, res) => {
   //validating unique email
-
-  //searching if the email exists
   let user = await User.findOne({ email: req.body.email });
-
-  //CASE:email already existis -> can't save this user the function is broken
   if (user) return res.status(400).send("This user already exists");
 
   //encrypting password
@@ -24,15 +22,14 @@ router.post("/registerUser", async (req, res) => {
     password: hash, //password encrypted by bcrypt
    });
 
-  const result = await user.save(); //saving user object in mongo
+  //saving user object in mongo
+  const result = await user.save(); 
 
+  //verifying result of save the user and generating jwt
   if (result) {
-    //if the user was saved return a JWT
     const jwtToken = user.generateJWT();
-
     res.status(200).send({ jwtToken });
   } else {
-    //if not return a message
     return res.status(400).send("Registration failed");
   }
 });
