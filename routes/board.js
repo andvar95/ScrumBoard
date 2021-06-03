@@ -3,6 +3,10 @@ const router = express.Router();
 const Board = require("../models/board");
 const User = require("../models/user");
 const middlewareAuth = require("../middleware/auth");
+const UserAuth = require("../middleware/user");
+const Upload = require("../middleware/file");
+const mongoose = require("mongoose");
+
 
 const tasksValidation = (board) =>{
     return board.name ==="" || board.description ==="" || board.status=== ""?null:true
@@ -11,20 +15,30 @@ const tasksValidation = (board) =>{
 
 
 /* This funcion register an activity  without an image, checking whether the user exists and saving a task*/
-router.post("/saveTask",middlewareAuth,async(req,res)=>{
+router.post("/saveTask",middlewareAuth,UserAuth,Upload.single("image"),async(req,res)=>{
 
-    //Cheking the user
-    const user = await User.findById(req.user._id);
-    if(!user) return res.status(401).send("User doesn't exist");
-
+    if(!req.body.name || !req.body.description) return res.status(401).send("Error: Incomplete data")
    
+    if(req.file){
+        if(
+            req.file.mimetype !== "image/png" &&
+            req.file.mimetype !== "image/jpg" &&
+             req.file.mimetype !== "image/jpeg" &&
+            req.file.mimetype !== "image/gif"
+        ) return res.status(401).send("Accepte format: .png, .jpg, .jpeg, .gif");
+    }
+   
+    const url = req.protocol + "://" + req.get("host")
+    let imageUrl = "";
+    if(req.file !== undefined && req.file.filename) imageUrl = url + "/uploads/"+req.file.filename
 
     //Board object
     const board = new Board({
-        userId:user._id,
+        userId:req.user._id,
         name:req.body.name,
         status:"to-do",
         description:req.body.description,
+        imageUrl:imageUrl
     });
 
      //Task validation
@@ -32,35 +46,44 @@ router.post("/saveTask",middlewareAuth,async(req,res)=>{
 
     //saving task
     const result = await board.save();
+    if (!result) return res.status(401).send("Error: Failed register Task")
     return res.status(200).send({result});
 })
 
 
 /* This function list the user's tasks, checking the token and user*/
-router.get("/listTasks",middlewareAuth,async(req,res)=>{   
-    //searchin  user by  ID
-    const user = await User.findById(req.user._id);
+router.get("/listTasks",middlewareAuth,UserAuth,async(req,res)=>{   
+   
+    const validId = mongoose.Types.ObjectId.isValid(req.user._id);
+    if(!validId) return res.status(401).send("Error: id not valid")
 
-    //if user doesn't exist
-    if(!user) return res.status(401).send("User doesn't exist"); 
+   
     const board = await Board.find({userId:req.user._id});
+    if(!board) return status(401).send("Warnig:  No tasks to list")
     return res.status(200).send({board});
+
     
 })
 
 
 /* Function to update a task, receiving all field with the modified feild*/
-router.put("/updateTask",middlewareAuth,async(req,res)=>{
-    //cheking user
-    const user = await User.findById(req.user._id);
-    if(!user) return res.status(401).send("This Person doesn't exist");
+router.put("/updateTask",middlewareAuth,UserAuth,async(req,res)=>{
 
-     //Task validation
-     if(!tasksValidation(req.body)) return res.status(401).send("Fill all Fields");
+    if (
+        !req.body._id ||
+        !req.body.name ||
+        !req.body.status ||
+        !req.body.description
+      )
+        return res.status(401).send("Process failed: Incomplete data");
+
+        const validId = mongoose.Types.ObjectId.isValid(req.user._id);
+        if(!validId) return res.status(401).send("Error: id not valid")
+
 
     //UPDATING activity
     const board = await Board.findByIdAndUpdate(req.body._id,{
-        userId:user._id,
+        userId:req.user._id,
         name:req.body.name,
         status:req.body.status,
         description:req.body.description
@@ -73,10 +96,9 @@ router.put("/updateTask",middlewareAuth,async(req,res)=>{
 })
 
 /* Deleting a task, using the middleware and deleting a existing activity*/
-router.delete("/:_id",middlewareAuth,async(req,res)=>{
-    const user = await User.findById
-    (req.user._id);
-    if(!user) return res.status(401).send("User doesn't exist");
+router.delete("/:_id",middlewareAuth,UserAuth,async(req,res)=>{
+    const validId = mongoose.Types.ObjectId.isValid(req.user._id);
+    if(!validId) return res.status(401).send("Error: id not valid")
 
     const board = await Board.findByIdAndDelete(req.params._id);
     if(!board) return res.status(401).send("Error deleting task")

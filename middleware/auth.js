@@ -16,7 +16,7 @@ const auth = (req,res,next)=>{
 
     //Checking the secretor word in the token
     try{
-        const payload = jwt.verify(jwtToken, "Secret Token");
+        const payload = jwt.verify(jwtToken, process.env.secretKey);
         req.user = payload;
         next();
     }catch(error){

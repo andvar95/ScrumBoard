@@ -12,11 +12,15 @@ router.post("/login",async (req,res)=>{
     if(!user) return res.status(400).send("Email not correct");
      //veriying paswword
     const hash =  await bcrypt.compare(req.body.password,user.password);
-    if(!hash) return res.status(400).send("Password not correct")
+    if(!hash || !user.active) return res.status(400).send("Password not correct")
 
+    try{
     //login succesfully
     const jwtToken = user.generateJWT();
-    return res.status(200).send({jwtToken});
+    return res.status(200).send({jwtToken});}
+    catch(e){
+        return res.status(400).send("Login Error")
+    }
 });
 
 

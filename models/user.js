@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
     name:String,
     email:String,
     password:String,
+    roleId:{type:mongoose.Schema.ObjectId,ref:"role"},
+    active:Boolean,
     date:{type:Date,
     default:Date.now}
 })
@@ -18,9 +20,11 @@ userSchema.methods.generateJWT = function(){
     return jwt.sign({
         _id:this._id,
         name:this.name,
+        roleId:this.roleId,
         iat:moment().unix()
     },
-    "Secret Token");
+    process.env.secretKey
+    );
 };
 
 

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 //Board Schema
 const boardSchema = new mongoose.Schema({
-  userId: String,
+  userId: {type: mongoose.Schema.ObjectId,ref:"user"},
   name: String,
   description: String,
   status: String,
