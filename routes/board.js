@@ -16,17 +16,15 @@ const tasksValidation = (board) =>{
 
 /* This funcion register an activity  without an image, checking whether the user exists and saving a task*/
 router.post("/saveTask",middlewareAuth,UserAuth,Upload.single("image"),async(req,res)=>{
+   
+
+    if(req.params["error"])return res.status(401).send("Accepte format: .png, .jpg, .jpeg, .gif");
+       
 
     if(!req.body.name || !req.body.description) return res.status(401).send("Error: Incomplete data")
+
    
-    if(req.file){
-        if(
-            req.file.mimetype !== "image/png" &&
-            req.file.mimetype !== "image/jpg" &&
-             req.file.mimetype !== "image/jpeg" &&
-            req.file.mimetype !== "image/gif"
-        ) return res.status(401).send("Accepte format: .png, .jpg, .jpeg, .gif");
-    }
+   
    
     const url = req.protocol + "://" + req.get("host")
     let imageUrl = "";

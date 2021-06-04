@@ -17,9 +17,14 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage:storage,
     fileFilter:(req,file,fn)=>{
+        
         if(!req.body.name || !req.body.description) file = "";
-        if(file == "") return fn(null,false)
-        else fn(null,true)
+        if(file == "") {return fn(null,false)}
+        else if(file.mimetype.includes("image")===false){
+            req.params = {"error":"format-error"}
+            fn(null,false)
+        }
+        else {return fn(null,true)}
     },
 });
 
