@@ -1,1 +1,94 @@
-<p>register works!</p>
+<div class="form">
+    <mat-card>
+        <mat-card-title>
+            Register User
+        </mat-card-title>
+        <div *ngIf ="successMessage" class="col-12 col-lg-12">
+            <div class="alert
+            alert-success
+            alert-dissimisible"
+            role ="alert"
+            >
+            <div
+            class="alert-message"
+            >
+            {{successMessage}}
+            </div>
+            <button
+            type="button"
+            class="close"
+            (click)="closeAlert(0)"
+            data-dismiss="alert"
+            aria-label="Close"
+            >
+            X
+            </button>
+            </div>
+        </div>
+
+        <div *ngIf ="errorMessage" class="col-12 col-lg-12">
+            <div class="alert
+            alert-danger
+            alert-dissimisible"
+            role ="alert"
+            >
+            <div
+            class="alert-message"
+            >
+            {{errorMessage}}
+            </div>
+            <button
+            type="button"
+            class="close"
+            (click)="closeAlert(0)"
+            data-dismiss="alert"
+            aria-label="Close"
+            >
+            X
+            </button>
+            </div>
+        </div>
+
+        <mat-card-content>
+            <div class="container">
+                <mat-form-field>
+                    <input
+                    [(ngModel)]="registerData.name"
+                    matInput
+                    placeholder="name"
+                    required
+                    >
+                </mat-form-field>
+                <mat-form-field>
+                    <input
+                    [(ngModel)]="registerData.email"
+                    matInput
+                    placeholder="email"
+                    required
+                    >
+                </mat-form-field>
+                <mat-form-field>
+                    <input
+                    [(ngModel)]="registerData.password"
+                    matInput
+                    placeholder="password"
+                    required
+                    >
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button
+            (click) ="registerUser()"
+            class="button colorButton"
+            mat-raised-button
+            >
+            Register
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+    
+
+
+</div>
