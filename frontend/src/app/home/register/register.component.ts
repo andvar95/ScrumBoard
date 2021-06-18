@@ -9,12 +9,11 @@ import {Router} from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   public registerData:any;
-  public successMessage:String;
   public errorMessage:String;
 
   constructor(private authservice:AuthService, private router:Router) { 
     this.registerData = {};
-    this.successMessage = '';
+
     this.errorMessage = '';
   }
 
@@ -32,12 +31,16 @@ export class RegisterComponent implements OnInit {
       }
       else{
     this.authservice.registerUser(this.registerData).subscribe(
-      (res)=>{
+      (res:any)=>{
         console.log(res);
-        this.successMessage = "Register User Successfully"
+        localStorage.setItem('token',res.jwtToken)
+        this.registerData = {}
+        this.router.navigate(['/saveTask'])
+       
       },
       (err)=>{
         console.log(err);
+        this.registerData = {}
         this.errorMessage = err.error;
       }
     )
@@ -48,7 +51,6 @@ export class RegisterComponent implements OnInit {
   closeAlert(time:number){
     setTimeout(()=>{
       this.errorMessage = '';
-      this.successMessage =  '';
     },time)
 
   }

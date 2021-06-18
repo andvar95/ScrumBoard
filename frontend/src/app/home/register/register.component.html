@@ -3,29 +3,6 @@
         <mat-card-title>
             Register User
         </mat-card-title>
-        <div *ngIf ="successMessage" class="col-12 col-lg-12">
-            <div class="alert
-            alert-success
-            alert-dissimisible"
-            role ="alert"
-            >
-            <div
-            class="alert-message"
-            >
-            {{successMessage}}
-            </div>
-            <button
-            type="button"
-            class="close"
-            (click)="closeAlert(0)"
-            data-dismiss="alert"
-            aria-label="Close"
-            >
-            X
-            </button>
-            </div>
-        </div>
-
         <div *ngIf ="errorMessage" class="col-12 col-lg-12">
             <div class="alert
             alert-danger

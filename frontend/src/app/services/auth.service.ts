@@ -14,6 +14,18 @@ export class AuthService {
 
 registerUser(user:any){
   return this.http.post(this.baseUrl+"user/RegisterUser",user)
+}
+  login(user:any){
+    return this.http.post(this.baseUrl+"auth/login",user)
 
 }
+
+loguedIn(){
+   return !!localStorage.getItem('token');
+}
+    
+    getToken(){
+    return localStorage.getItem('token');
+    }
+
 }

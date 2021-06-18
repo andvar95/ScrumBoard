@@ -18,7 +18,7 @@ import { SaveTaskComponent } from './board/save-task/save-task.component';
 
 import { AuthService} from './services/auth.service'
 import { BoardService } from './services/board.service';
-import { TokenInterceptorService } from './services/token-interceptor.service';
+import { TokenInterceptorService } from "./services/token-interceptor.service";
 import { AuthGuard } from './guard/auth.guard';
 
 
@@ -30,7 +30,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule,
 ReactiveFormsModule} from '@angular/forms';
 
@@ -64,7 +64,12 @@ ReactiveFormsModule} from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, BoardService, AuthGuard, TokenInterceptorService],
+  providers: [AuthService, BoardService, AuthGuard,
+     {provide:HTTP_INTERCEPTORS,
+      useClass:TokenInterceptorService,
+      multi:true
+  },
+  TokenInterceptorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
