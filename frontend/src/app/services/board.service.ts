@@ -22,11 +22,11 @@ listTask(){
 
 
 updateTask(task:any){
-  return this.http.put<any>(this.baseUrl+'board/updateTask',task);
+  return this.http.put<any>(this.baseUrl+'board/updateTask/',task);
 }
 
 deleteTask(task:any){
-  return this.http.delete<any>(this.baseUrl+'board/deleteTask',task);
+  return this.http.delete<any>(this.baseUrl+'board/deleteTask/'+task._id);
 }
 
 }

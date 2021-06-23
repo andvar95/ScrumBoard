@@ -30,9 +30,47 @@ export class ListTaskComponent implements OnInit {
     )
   }
 
-  updateTask(Task:any,status:String){}
+  updateTask(task:any,status:String){
+    const prevStatus = task.status;
+    task.status = status
+    this.boardservice.updateTask(task).subscribe(
+      (res)=>{
+        task.status = status
+      },(err)=>{
+        task.status = prevStatus
+        this.errorMessage = err.errror;
+        this.closeAlert(5000);
+      }
 
-  deleteTask(Task:any){}
+    )
+  }
+
+  deleteTask(task:any){
+    
+   
+    this.boardservice.deleteTask(task).subscribe(
+      (res:any)=>{
+        console.log(res)
+
+        const index = this.tasksData.indexOf(task);
+
+        if(index>-1){
+          this.tasksData.splice(index,1)
+        }
+        
+        this.successMessage = res.message
+        this.closeAlert(5000)
+      
+      },(err)=>{
+        console.log(err)
+        this.errorMessage = err.error
+        this.closeAlert(5000)
+   
+      }
+    )
+
+    
+  }
 
   closeAlert(time:number){
     setTimeout(()=>{

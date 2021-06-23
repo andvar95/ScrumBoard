@@ -93,14 +93,14 @@ router.put("/updateTask",middlewareAuth,UserAuth,async(req,res)=>{
 })
 
 /* Deleting a task, using the middleware and deleting a existing activity*/
-router.delete("/:_id",middlewareAuth,UserAuth,async(req,res)=>{
+router.delete("/deleteTask/:_id",middlewareAuth,UserAuth,async(req,res)=>{
     const validId = mongoose.Types.ObjectId.isValid(req.user._id);
     if(!validId) return res.status(401).send("Error: id not valid")
 
     const board = await Board.findByIdAndDelete(req.params._id);
     if(!board) return res.status(401).send("Error deleting task")
 
-    return res.status(401).send({message:"Task deleted"})
+    return res.status(200).send({message:"Task deleted"})
 
 })
 
