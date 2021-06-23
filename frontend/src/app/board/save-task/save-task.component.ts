@@ -19,16 +19,20 @@ export class SaveTaskComponent implements OnInit {
   ngOnInit(): void {}
 
   saveTask() {
+
     if (!this.taskData.name || !this.taskData.description) {
       this.errorMessage = 'Error: data incomplete';
       this.closeAlert(5000);
     } else {
+     
       this.boardservice.saveTask(this.taskData).subscribe(
         (res: any) => {
+          console.log(res)
           this.taskData = {};
           this.router.navigate(['/listTask']);
         },
         (err: any) => {
+          console.log(err)
           this.errorMessage = err.error;
           this.closeAlert(5000);
         }

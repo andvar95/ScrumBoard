@@ -1,1 +1,116 @@
-<p>list-task works!</p>
+<div class="bg-component">
+    <div class="accordion_display">
+        <div class="accordion_size">
+            <div>
+                <div *ngIf="errorMessage" class="col-12 col-lg-12">
+                    <div class="alert alert-danger alert-dissmisible" role="alert">
+                      <div class="alert-message">
+                        {{ errorMessage }}
+                      </div>
+                      <button
+                        type="button"
+                        class="close"
+                        (click)="closeAlert(0)"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">X</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="successMessage" class="col-12 col-lg-12">
+                    <div class="alert alert-danger alert-dissmisible" role="alert">
+                      <div class="alert-message">
+                        {{ successMessage }}
+                      </div>
+                      <button
+                        type="button"
+                        class="close"
+                        (click)="closeAlert(0)"
+                        data-dismiss="alert"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">X</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>          
+
+            <mat-accordion 
+            multi="true"
+            *ngIf ="tasksData.length">
+            <mat-expansion-panel 
+            *ngFor = "let task of tasksData" hideToggle ="false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span class="text_center">
+                        {{task.name}}
+                    </span>
+                    <span class="spacer">
+                    </span>
+                    <button
+                    class="btDone"
+                    *ngIf="task.status === 'done'"
+                    mat-raised-button
+                  >
+                    {{ task.status }}
+                  </button>
+
+                  <button
+                  class="btToDo"
+                  *ngIf="task.status === 'to-do'"
+                  mat-raised-button
+                >
+                  {{ task.status }}
+                </button>
+                <button
+                class="btInProgress"
+                *ngIf="task.status === 'in-progress'"
+                mat-raised-button
+              >
+                {{ task.status }}
+              </button>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-panel-description>
+                {{task.description}}
+            </mat-panel-description>
+            <mat-action-row>
+                <button 
+                class="btSelectToDo"
+                mat-button
+                (click)="updateTask(task,'to-do')">
+                 To-Do     
+                </button>
+                <button 
+                class="btSelectInProgress"
+                mat-button
+                (click)="updateTask(task,'in-progress')">
+                 In Progress     
+                </button>
+
+                <button 
+                class="btSelectDone"
+                mat-button
+                (click)="updateTask(task,'done')">
+                 Done     
+                </button>
+                <span class="spacer">
+                </span>
+                <mat-icon
+                color="primary"
+                (click)="deleteTask(task)">
+                delete
+                </mat-icon>
+
+            </mat-action-row>
+
+
+            </mat-expansion-panel>
+
+            </mat-accordion>
+
+        </div>
+    </div>
+</div>

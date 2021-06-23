@@ -17,7 +17,16 @@ saveTask(task:any){
 }
 
 listTask(){
-  return this.http.get(this.baseUrl+"board/listTask")
+  return this.http.get(this.baseUrl+"board/listTasks")
+}
+
+
+updateTask(task:any){
+  return this.http.put<any>(this.baseUrl+'board/updateTask',task);
+}
+
+deleteTask(task:any){
+  return this.http.delete<any>(this.baseUrl+'board/deleteTask',task);
 }
 
 }

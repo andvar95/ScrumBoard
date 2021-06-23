@@ -1,0 +1,66 @@
+.accordion_display{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.accordion_size{
+    min-width:150px;
+    max-width:500px;
+    width:100%;
+    padding:50px 15px 0px;
+}
+
+.spacer{
+    flex:1 0 auto;
+}
+
+.mat-icon:hover{
+    color: #ff0000;
+    cursor: pointer;
+    padding-right:15px;
+}
+
+
+
+.btDone {
+    background-color: #5c830f;
+    color: #ffffff;
+  }
+  
+  .btInProgress {
+    background-color: rgb(173, 80, 88);
+    color: #ffffff;
+  }
+  
+  .btToDo {
+    background-color: #0b6abe;
+    color: #ffffff;
+  }
+  
+  .btSelectDone {
+    background-color: #6c7e48;
+    color: #ffffff;
+  }
+  
+  .btSelectInProgress {
+    background-color: rgb(177, 128, 132);
+    color: #ffffff;
+  }
+  
+  .btSelectToDo {
+    background-color: #4483ba;
+    color: #ffffff;
+  }
+  
+  .text_center {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  
+  .image-center {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 450px;
+  }
+  

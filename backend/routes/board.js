@@ -17,8 +17,7 @@ const tasksValidation = (board) =>{
 /* This funcion register an activity  without an image, checking whether the user exists and saving a task*/
 router.post("/saveTask",middlewareAuth,UserAuth,Upload.single("image"),async(req,res)=>{
    
-
-    if(req.params["error"])return res.status(401).send("Accepte format: .png, .jpg, .jpeg, .gif");
+console.log(req.body)
        
 
     if(!req.body.name || !req.body.description) return res.status(401).send("Error: Incomplete data")
