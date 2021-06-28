@@ -11,11 +11,13 @@ export class ListTaskComponent implements OnInit {
   public successMessage:String;
   public errorMessage:String;
   public tasksData:any;
+ 
 
   constructor(private boardservice:BoardService, private router:Router) { 
     this.successMessage = ""
     this.errorMessage = ""
     this.tasksData = {}
+   
   }
 
   ngOnInit(): void {
@@ -29,6 +31,8 @@ export class ListTaskComponent implements OnInit {
       }
     )
   }
+
+
 
   updateTask(task:any,status:String){
     const prevStatus = task.status;
